@@ -1,0 +1,26 @@
+{
+  "name": "lelectron",
+  "version": "1.0.0",
+  "description": "chao",
+  "main": "main.js",
+  "scripts": {
+    "pack": "./",
+    "dist": "build"
+  },
+  "author": "songchao",
+  "license": "ISC",
+  "devDependencies": {
+    "electron-builder": "^7.18.0",
+    "electron-prebuilt": "^1.4.5"
+  },
+  "build": {
+    "appId": "www.codeevery.com",
+    "win": {
+      "iconUrl": "C:\\Users\\chao\\Downloads\\64X64.ico",
+      "icon-size":64
+    }
+  },
+  "scripts":{
+    "dist":"build --win --x64"
+  }
+}
