@@ -1,79 +1,112 @@
 /**
  * Created by chao on 2016/3/19.
  */
-window.onload = function () {
-    initRegTest();
+var ipc = require('electron').ipcRenderer;
+var Handle = require('./js/Handle');
+console.log(Handle);
+
+window.onload = () => {
+    initSystemButton();//初始化系统按钮点击事件
+    initOtherButton();
+    initToggle();//初始化toggle切换
+    initRegTest();//初始化
+};
+
+/**
+ * 初始化系统按钮点击
+ */
+function initSystemButton() {
+    var closeButton = document.getElementById("close-button");
+    var minimizeButton = document.getElementById('minimize-button');
+
+    closeButton.addEventListener('click', function () {
+        ipc.send('window-all-closed', 'ping');
+    });
+    minimizeButton.addEventListener('click', function () {
+        ipc.send('window-all-minimize', 'ping');
+    });
+}
+
+/**
+ * 初始化其他按钮
+ */
+function initOtherButton() {
+    var settingButton = document.getElementById("setting-button");
+    settingButton.addEventListener("click",event => {
+        ipc.send('open-setting-window','ping');
+    })
+
+}
+
+/**
+ * 初始化toggle按钮
+ */
+function initToggle() {
+    var toggleTest = document.getElementById("toggle-test");
+    var toggleReplace = document.getElementById("toggle-replace");
+    var ul = document.querySelector("#toggle-main>ul");
+    toggleTest.addEventListener("click", event => {
+        ul.style.left = '0px';
+        toggleTest.classList.add("active");
+        toggleReplace.classList.remove("active");
+    });
+    toggleReplace.addEventListener("click", event => {
+        ul.style.left = '-100%';
+        toggleReplace.classList.add("active");
+        toggleTest.classList.remove("active");
+    });
 }
 
 function initRegTest() {
-    var aimTextElement = document.getElementById("aim_text");
-    var regTextElement = document.getElementById("reg_text");
+    var aimTextElement = document.getElementById("aim-text");
+    var regTextElement = document.getElementById("reg-text");
 
     var aimText = "", regText = "";
 
-    aimTextElement.addEventListener("keyup", function () {
+    aimTextElement.addEventListener("keyup", () =>{
         aimText = aimTextElement.value;
-        startTest(aimText, regText);
+        var result = Handle.testReg(aimText, regText);
+        showResult(result);
     });
-    regTextElement.addEventListener("keyup", function () {
+    regTextElement.addEventListener("keyup", () =>{
         regText = regTextElement.value;
-        startTest(aimText, regText);
+        var result = Handle.testReg(aimText, regText);
+        showResult(result);
     });
-}
-
-function startTest(aimText, regText) {
-    var spli = regText.match(/\/(.*)\/(.*)/);
-    if (spli) {
-        var reg;
-        try {
-            reg = new RegExp(spli[1], spli[2]);
-        } catch (e) {
-            if (e.message.indexOf('Unterminated group') == -1) {
-                console.log(e);
-            }
-        }
-    } else {
-        if (regText.indexOf('/') == -1) {
-            var reg;
-            try {
-                reg = new RegExp(regText);
-            } catch (e) {
-                if (e.message.indexOf('Unterminated group') == -1) {
-                    console.log(e);
-                }
-            }
-        }
-    }
-    if (reg) {
-        var result = reg.exec(aimText);
-    }
-    showResult(result);
 }
 
 function showResult(result) {
-    var allResultTextElement = document.getElementById("all_result_text");
-    var resultGroupElement = document.getElementById("result_group");
+    var matchResult = document.getElementById("match-result");
     var dF = document.createDocumentFragment();
-    if (result) {
-        allResultTextElement.innerText = result[0];
-        for (var i = 1; i < result.length; i++) {
-            var div = document.createElement("div");
-            div.className = "result_group_addon";
-            var span = document.createElement("span");
-            var h6 = document.createElement("h6");
-            h6.innerHTML = i;
-            span.appendChild(h6);
-            var pre = document.createElement("pre");
-            pre.innerText = result[i];
-            div.appendChild(span);
-            div.appendChild(pre);
+    matchResult.innerHTML = "";
 
+    if (Array.isArray(result)) {
+        for (var i = 0; i < result.length; i++) {
+            var div = getResultDiv(i, result[i]);
             dF.appendChild(div);
         }
-        resultGroupElement.innerHTML = "";
-        resultGroupElement.appendChild(dF);
+        matchResult.appendChild(dF);
     } else {
-        allResultTextElement.innerHTML = "匹配不到";
-        resultGroupElement.innerHTML = "";
+        if (result == Handle.Error.RegError) {
+
+        } else if (result == Handle.Error.NoMatchError) {
+            allResultTextElement.innerHTML = "匹配不到";
+        }
+    }
+
+    function getResultDiv(order, context) {
+        var div = document.createElement("div");
+        div.className = "list-group match-result-one";
+        div.id = "match-result";
+
+        var span = document.createElement("span");
+        var h6 = document.createElement("h6");
+        h6.innerText = order;
+        span.appendChild(h6);
+        div.appendChild(span);
+        var pre = document.createElement("pre");
+        pre.innerText = context;
+        div.appendChild(pre);
+        return div;
     }
 }

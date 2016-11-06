@@ -4,23 +4,23 @@
   "description": "chao",
   "main": "main.js",
   "scripts": {
-    "pack": "./",
-    "dist": "build"
+    "dist": "build --win --x64"
   },
   "author": "songchao",
   "license": "ISC",
   "devDependencies": {
     "electron-builder": "^7.18.0",
-    "electron-prebuilt": "^1.4.5"
+    "electron-prebuilt": "^1.4.5",
+    "grunt": "^1.0.1",
+    "grunt-babel": "^6.0.0",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0"
   },
   "build": {
     "appId": "www.codeevery.com",
     "win": {
       "iconUrl": "C:\\Users\\chao\\Downloads\\64X64.ico",
-      "icon-size":64
+      "icon-size": 64
     }
-  },
-  "scripts":{
-    "dist":"build --win --x64"
   }
 }

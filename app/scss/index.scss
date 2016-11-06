@@ -1,186 +1,227 @@
-@charset "UTF-8";
+@charset "utf-8";
+@import "variable";
 /*-------------------全局属性------------------------*/
 html, body {
   overflow: hidden;
   margin: 0;
-  height: 100%; }
+  height: 100%;
+}
 
 body {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+}
 
 *::-webkit-scrollbar {
   width: 10px;
   height: 10px;
   background-color: transparent;
   border: 1px #bbbbbb solid;
-  position: fixed; }
+  position: fixed;
+}
 
 *::-webkit-scrollbar-button {
-  display: none; }
+  display: none;
+}
 
 *::-webkit-scrollbar-thumb {
-  background: #a1a1a1; }
+  background: #a1a1a1;
+}
 
 a, a:hover, a:focus {
-  text-decoration: none; }
+  text-decoration: none;
+}
 
 button {
-  border: none; }
-  button:focus {
-    outline: none; }
+  border: none;
+  &:focus {
+    outline: none;
+  }
+}
 
 ul {
   list-style: none;
   padding: 0;
-  margin: 0; }
+  margin: 0;
+}
 
 /*---------------------------公共类-----------------*/
 .bg-primary {
   color: #ffffff !important;
-  background-color: #337ab7 !important; }
+  background-color: $primary-color !important;
+}
 
 .bg-success {
-  background-color: #dff0d8 !important; }
+  background-color: #dff0d8 !important;
+}
 
 .bg-info {
-  background-color: #d9edf7 !important; }
+  background-color: #d9edf7 !important;
+}
 
 .bg-warning {
-  background-color: #fcf8e3 !important; }
+  background-color: #fcf8e3 !important;
+}
 
 .bg-danger {
-  background-color: #f2dede !important; }
+  background-color: #f2dede !important;
+}
 
 .button-group button {
   padding: 5px;
   background-color: #ffffff;
-  color: #337ab7;
-  border: 1px #337ab7 solid; }
+  color: $primary-color;
+  border: 1px $primary-color solid;
+}
 
-.button-group > button.active {
+.button-group > button.active{
   background: #337ab7;
-  color: #ffffff; }
+  color: #ffffff;
+}
 
 .button-group > button:first-child {
   border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px; }
+  border-bottom-left-radius: 5px;
+}
 
 .button-group > button:last-child {
   border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px; }
+  border-bottom-right-radius: 5px;
+}
 
 .list-group {
-  display: flex; }
-  .list-group :first-child {
+  display: flex;
+  & :first-child {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     align-items: stretch;
     padding: 10px;
     display: flex;
     flex-direction: column;
-    background-color: #c7c6c6; }
-    .list-group :first-child h6 {
+    background-color: #c7c6c6;
+    h6 {
       text-align: center;
       padding: 0;
       margin: 0;
-      justify-content: center; }
-  .list-group :last-child {
+      justify-content: center;
+    }
+  }
+  & :last-child {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     align-items: stretch;
-    flex-grow: 1; }
+    flex-grow: 1;
+  }
+}
 
 /*-----------------------------模块设置--------------*/
 /*顶部菜单按钮*/
 #head-menu {
   -webkit-app-region: drag;
-  -webkit-user-select: none; }
+  -webkit-user-select: none;
+}
 
 #set-button {
   width: 30px;
   height: 30px;
-  margin: 20px; }
+  margin: 20px;
+}
 
 #close-button, #minimize-button, #setting-button {
   margin: 5px;
   padding: 0;
   background-color: transparent;
   background-size: contain;
-  -webkit-app-region: no-drag; }
+  -webkit-app-region: no-drag;
+}
 
 #close-button, #minimize-button {
   width: 15px;
-  height: 15px; }
+  height: 15px;
+}
 
 #close-button {
-  background-image: url("../images/close-window.png"); }
+  background-image: url("../images/close-window.png");
+}
 
 #close-button:hover {
-  background-image: url("../images/close-window-hover.png"); }
+  background-image: url("../images/close-window-hover.png");
+}
 
 #minimize-button {
-  background-image: url("../images/small-window.png"); }
+  background-image: url("../images/small-window.png");
+}
 
 #minimize-button:hover {
-  background-image: url("../images/small-window-hover.png"); }
+  background-image: url("../images/small-window-hover.png");
+}
 
 #setting-button {
   background-image: url("../images/setting.png");
   width: 20px;
   height: 20px;
-  float: left; }
+  float: left;
+}
 
 #setting-button:hover {
-  background-image: url("../images/setting-hover.png"); }
+  background-image: url("../images/setting-hover.png");
+}
 
 /*顶部菜单按钮结束*/
+
 /*顶部切换部分*/
 #head-toggle {
-  text-align: center; }
+  text-align: center;
+}
 
 /*顶部切换部分结束*/
 /*中间切换部分*/
 #toggle-main {
   flex-grow: 2;
-  position: relative; }
-  #toggle-main > ul {
+  position: relative;
+  & > ul {
     overflow: hidden;
     position: absolute;
     padding-top: 10px;
     top: 0;
     width: 200%;
     height: 100%;
-    left: 0; }
-    #toggle-main > ul li {
+    left: 0;
+    li {
       width: 50%;
       height: 100%;
       float: left;
       display: flex;
-      flex-direction: column; }
-      #toggle-main > ul li textarea {
+      flex-direction: column;
+      textarea {
         height: 150px;
         width: 100%;
         padding: 5px;
         resize: none;
         display: block;
-        box-sizing: border-box; }
-        #toggle-main > ul li textarea:last-of-type {
-          margin-bottom: 5px; }
-  #toggle-main pre {
+        box-sizing: border-box;
+        &:last-of-type {
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+  pre {
     padding: 15px;
     background: #f5f5f5;
     border: 1px solid #e3e3e3;
     margin: 0;
-    overflow-x: auto; }
-  #toggle-main #match-result {
+    overflow-x: auto;
+  }
+  #match-result {
     overflow-y: auto;
     flex-grow: 1;
     box-sizing: border-box;
-    margin: 0 5px 5px 5px; }
-  #toggle-main .match-result-one {
-    padding-bottom: 5px; }
+    margin: 0 5px 5px 5px;
+  }
+  .match-result-one {
+    padding-bottom: 5px;
+  }
+}
 
 /*中间切换部分结束*/
-
-/*# sourceMappingURL=index.css.map */

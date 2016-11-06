@@ -1,0 +1,44 @@
+/**
+ * Created by w1003 on 2016/11/6.
+ */
+module.exports = {
+    Error:{
+        RegError:0,
+        NoMatchError:1,
+    },
+    testReg: function (aimText, regText) {
+        var spli = regText.match(/\/(.*)\/(.*)/);
+        if (spli) {
+            var reg;
+            try {
+                reg = new RegExp(spli[1], spli[2]);
+            } catch (e) {
+                if (e.message.indexOf('Unterminated group') == -1) {
+                    return this.Error.RegError;
+                }
+            }
+        } else {
+            if (regText.indexOf('/') == -1) {
+                var reg;
+                try {
+                    reg = new RegExp(regText);
+                } catch (e) {
+                    if (e.message.indexOf('Unterminated group') == -1) {
+                        return this.Error.RegError;
+                    }
+                }
+            }
+        }
+        if (reg) {
+            var result = reg.exec(aimText);
+        }
+        if(result){
+            return result;
+        }else {
+            return this.Error.NoMatchError;
+        }
+    },
+    replace:function () {
+
+    }
+};

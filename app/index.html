@@ -2,102 +2,66 @@
 <html lang="zh-CN">
 
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="renderer" content="webkit">
-	<title>正则替换助手</title>
-	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="./css/index.css">
-	<script>window.$ = window.jQuery = require('./js/jquery.min.js');</script>
-	<script src="./js/bootstrap.js"></script>
-	<script src="./js/index.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <title>正则替换助手</title>
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+    <script src="./js/index.js"></script>
 </head>
 
 <body>
-	<div class="container-fluid">
-		<div class="row" style="margin-top:10px;">
-			<div class="col-sm-12">
-				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
-					<div class="panel panel-default">
-						<div class="panel-heading bg-primary" role="tab" data-toggle="collapse" href="#aimColl" aria-expanded="true" aria-controls="aimColl">
-							<h4 class="panel-title">
-								输入目标文本
-							</h4>
-						</div>
-						<div id="aimColl" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="aimColl">
-							<div class="panel-body">
-								<textarea id="aim_text" style="width:100%;height:100px;"></textarea>
-							</div>
-						</div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading bg-success" role="tab" data-toggle="collapse" href="#regColl" aria-expanded="true" aria-controls="regColl">
-							<h4 class="panel-title">
-								输入正则表达式
-								<span style="float:right">正则表达式错误:</span>
-							</h4>
-							
-						</div>
-						<div id="regColl" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="regColl">
-							<div class="panel-body">
-								<textarea id="reg_text" style="width:100%;height:100px;"></textarea>
-							</div>
-						</div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading bg-info" role="tab" data-toggle="collapse" href="#pathColl" aria-expanded="false" aria-controls="pathColl">
-							<h4 class="panel-title">
-								输入文件路径Or文件名
-							</h4>
-						</div>
-						<div id="pathColl" class="panel-collapse collapse" role="tabpanel" aria-labelledby="pathColl">
-							<div class="panel-body">
-								<input type="text" style="width:100%" placeholder="file path" id="file_path" />
-							</div>
-						</div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading bg-warning" role="tab" data-toggle="collapse" href="#replaceColl" aria-expanded="false
-									" aria-controls="replaceColl">
-							<h4 class="panel-title">
-								输入替换文本
-							</h4>
-						</div>
-						<div id="replaceColl" class="panel-collapse collapse" role="tabpanel" aria-labelledby="replaceColl">
-							<div class="panel-body">
-								<textarea id="replace_text" style="width:100%;height:100px;"></textarea>
-							</div>
-						</div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading bg-danger" role="tab" data-toggle="collapse" href="#matchResult" aria-expanded="true" aria-controls="matchResult">
-							<h4 class="panel-title">
-								匹配结果
-							</h4>
-						</div>
-						<div id="matchResult" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="matchResult">
-							<div class="panel-body">
-								<h6>整体匹配</h6>
-								<div>
-									<pre id="all_result_text"></pre>
-								</div>
-								<h6>匹配组</h6>
-								<div id="result_group">
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				</ul>
-			</div>
-		</div>
-		<div class="row" style="text-align:center;">
-			<button class="btn btn-info">开始替换</button>
-			<div class="well" id="log">
-			</div>
-		</div>
-	</div>
+<!--顶部标题栏，包括最小化和关闭，设置按钮-->
+<div id="head-menu">
+    <button id="setting-button"></button>
+    <div style="text-align:right">
+        <button id="minimize-button"></button>
+        <button id="close-button"></button>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+<!--顶部功能切换按钮-->
+<div id="head-toggle">
+    <div class="button-group">
+        <button class="active" id="toggle-test" autofocus>正则测试</button><!--
+        --><button id="toggle-replace">正则替换</button>
+    </div>
+</div>
+<!--中间切换页面-->
+<div id="toggle-main">
+    <ul>
+        <li>
+            <!--正则测试页面-->
+            <div>
+                <textarea placeholder="请输入文本" id="aim-text"></textarea><textarea id="reg-text"
+                                                                                 placeholder="请输入正则表达式"></textarea>
+            </div>
+            <div id="match-result">
+                <div class="list-group match-result-one">
+                    <span>
+                        <h6>all</h6>
+                    </span>
+                    <pre>slajfdlksajlkfjdsladfjldksj
+                    lsdljfldsjaflkjslakfjlskajflkjasfljlajflk
+                    sdlkfjlksjalfkjdlksajflkdsjalkfjdslksdfasfdsafdsafdsafdsafdsafdsafdsafdsajflkjsafdslkajf</pre>
+                </div>
+                <div class="list-group match-result-one">
+                    <span>
+                        <h6>all</h6>
+                    </span>
+                    <pre>slajfdlksajlkfjdsladfjldksj
+                    lsdljfldsjaflkjslakfjlskajflkjasfljlajflk
+                    sdlkfjlksjalfkjdlksajflkdsjalkfjdslksdfasfdsafdsafdsafdsafdsafdsafdsafdsajflkjsafdslkajf</pre>
+                </div>
+            </div>
+        </li>
+        <li>
+            <!--正则替换页面-->
+            <textarea placeholder="请输入替换表达式"></textarea>
+            <textarea placeholder="请输入替换表达式"></textarea>
+        </li>
+    </ul>
+</div>
 </body>
 
 </html>
