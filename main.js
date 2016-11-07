@@ -3,11 +3,16 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const ipc = electron.ipcMain;
 
+let indexWebContents = null;
 let win;
 let settingWin;
 
 initApp();
 initSystemButton();
+
+//----------------------创建全局数据
+
+//----------------------全局数据结束
 
 function initApp() {
     app.on('ready', createWindow);
@@ -25,11 +30,12 @@ function initApp() {
 
 function createWindow() {
     win = new BrowserWindow({frame: false, width: 800, height: 600});
-    win.loadURL('file://' + __dirname + '/app/index.html');
+    win.loadURL(`file://${__dirname}/app/index.html`);
     win.on('closed', () => {
         win = null;
         settingWin = null;
     });
+    indexWebContents = win.webContents;
 }
 
 function initSystemButton() {
@@ -41,7 +47,7 @@ function initSystemButton() {
     });
     ipc.on('open-setting-window', ()=> {//打开设置窗口
         if (settingWin == null) {
-            settingWin = new BrowserWindow({frame:false,parent: win, width: 300, height: 400});
+            settingWin = new BrowserWindow({frame: false, parent: win, width: 400, height: 400});
             settingWin.loadURL('file://' + __dirname + '/app/setting.html');
             settingWin.on('closed', ()=> {
                 settingWin = null;
@@ -49,7 +55,30 @@ function initSystemButton() {
         }
         settingWin.show();
     });
-    ipc.on('close-setting-window',()=>{
+    ipc.on('close-setting-window', ()=> {
         settingWin.hide();
-    })
+    });
+    ipc.on('save-setting',(event,message)=>{
+        win.webContents.send('save-setting',message);
+    });
+
+    ipc.on('open-file-dialog', (event, arg) => {
+        let dialog = electron.dialog;
+        var openArg = "";
+        if(arg == "test-path"){
+            openArg = "openFile";
+        }else{
+            openArg = "multiSelections";
+        }
+        dialog.showOpenDialog({
+            properties: ['openFile', openArg]
+        }, files => {
+            if (files) {
+                event.sender.send('selected-directory', {
+                    file: files,
+                    id: arg
+                });
+            }
+        });
+    });
 }

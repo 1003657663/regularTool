@@ -1,17 +1,27 @@
 /**
  * Created by chao on 2016/3/19.
  */
-var ipc = require('electron').ipcRenderer;
+const electron = require('electron');
+var ipc = electron.ipcRenderer;
 var Handle = require('./js/Handle');
+var FileTools = require('./js/FileTools');
+var setting;
 console.log(Handle);
 
+
 window.onload = () => {
+    initSystem();
     initSystemButton();//初始化系统按钮点击事件
     initOtherButton();
     initToggle();//初始化toggle切换
     initRegTest();//初始化
 };
 
+function initSystem() {//初始化index渲染系统
+    ipc.on('save-setting',(event,message)=>{
+        console.log(message.testPath);
+    })
+}
 /**
  * 初始化系统按钮点击
  */
@@ -20,10 +30,10 @@ function initSystemButton() {
     var minimizeButton = document.getElementById('minimize-button');
 
     closeButton.addEventListener('click', function () {
-        ipc.send('window-all-closed', 'ping');
+        ipc.send('window-all-closed');
     });
     minimizeButton.addEventListener('click', function () {
-        ipc.send('window-all-minimize', 'ping');
+        ipc.send('window-all-minimize');
     });
 }
 
@@ -33,9 +43,8 @@ function initSystemButton() {
 function initOtherButton() {
     var settingButton = document.getElementById("setting-button");
     settingButton.addEventListener("click",event => {
-        ipc.send('open-setting-window','ping');
-    })
-
+        ipc.send('open-setting-window');
+    });
 }
 
 /**

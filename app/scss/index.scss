@@ -176,6 +176,7 @@ ul {
 
 /*顶部切换部分结束*/
 /*中间切换部分*/
+/*测试正则表达式部分*/
 #toggle-main {
   flex-grow: 2;
   position: relative;
@@ -224,4 +225,16 @@ ul {
   }
 }
 
+/*测试正则表达式部分结束*/
+/*替换部分*/
+#start-replace{
+  margin-left: 10px;
+  margin-right: 10px;
+  height:30px;
+  background: $primary-color;
+  color: #ffffff;
+}
+
+
+/*替换部分结束*/
 /*中间切换部分结束*/
