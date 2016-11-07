@@ -5,7 +5,8 @@ const electron = require('electron');
 var ipc = electron.ipcRenderer;
 var Handle = require('./js/Handle');
 var FileTools = require('./js/FileTools');
-var setting;
+var setting = null;
+var fileAimText = null;
 console.log(Handle);
 
 
@@ -18,9 +19,22 @@ window.onload = () => {
 };
 
 function initSystem() {//初始化index渲染系统
-    ipc.on('save-setting',(event,message)=>{
-        console.log(message.testPath);
-    })
+    ipc.on('save-setting', (event, message) => {
+        setting = message;
+        //如果测试部分不是空，那么输入文字部分消失，自动从文件读取数据
+        if (setting.testPath != "") {
+            //获取字符串
+            fileAimText = FileTools.readFile(setting.testPath, (err, data) => {
+                if (err) {
+                    alert(err);
+                    return;
+                } else {
+                    fileAimText = data;
+                }
+            });
+            //输入文字部分消失---wait
+        }
+    });
 }
 /**
  * 初始化系统按钮点击
@@ -42,7 +56,7 @@ function initSystemButton() {
  */
 function initOtherButton() {
     var settingButton = document.getElementById("setting-button");
-    settingButton.addEventListener("click",event => {
+    settingButton.addEventListener("click", event => {
         ipc.send('open-setting-window');
     });
 }
@@ -72,16 +86,29 @@ function initRegTest() {
 
     var aimText = "", regText = "";
 
-    aimTextElement.addEventListener("keyup", () =>{
-        aimText = aimTextElement.value;
+    aimTextElement.addEventListener("keyup", () => {
+        var {aimText, regText} = getAimText();
         var result = Handle.testReg(aimText, regText);
         showResult(result);
     });
-    regTextElement.addEventListener("keyup", () =>{
-        regText = regTextElement.value;
+    regTextElement.addEventListener("keyup", () => {
+        var {aimText, regText} = getAimText();
         var result = Handle.testReg(aimText, regText);
         showResult(result);
     });
+
+    function getAimText() {
+        var regText = regTextElement.value;
+        if (setting.testPath) {
+            if (fileAimText) {
+                var aimText = fileAimText;
+                return { aimText, regText };
+            }
+        } else {
+            var aimText = aimTextElement.value;
+            return { aimText, regText };
+        }
+    }
 }
 
 function showResult(result) {
@@ -99,7 +126,7 @@ function showResult(result) {
         if (result == Handle.Error.RegError) {
 
         } else if (result == Handle.Error.NoMatchError) {
-            allResultTextElement.innerHTML = "匹配不到";
+            matchResult.innerHTML = "匹配不到";
         }
     }
 

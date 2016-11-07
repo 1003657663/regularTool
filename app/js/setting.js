@@ -8,25 +8,48 @@ var ipc = electron.ipcRenderer;
 var remote = electron.remote;
 
 
-window.onload = ()=> {
+window.onload = () => {
     initSystemButton();
     initOnEvent();
 };
 
 function initSystemButton() {//初始化系统按钮
     var containerElement = document.getElementById("container");
+    var closeButton = document.getElementById("close-button");
     closeButton.addEventListener('click', function () {
         ipc.send('close-setting-window');
     });
-    containerElement.addEventListener("click", event => {
-        var targetElement = event.target;
-        if (targetElement.tagName == "BUTTON" && targetElement.id != "save-button") {
-            ipc.send('open-file-dialog',targetElement.parentElement.children[0].id);
-        } else if (targetElement.id == "save-button") {
-            //保存
-            getAllValue();
-            ipc.send('save-setting',{testPath,replacePath,filterName});
+    var testButton = document.getElementById("test-button");
+    var replaceButton = document.getElementById("replace-button");
+    var saveButton = document.getElementById("save-button");
+    var maskChoose = document.getElementById("folder-file");
+
+    var folderButton = document.getElementById("folder-button");
+    var fileButton = document.getElementById("file-button");
+
+    testButton.addEventListener("click", event => {
+        ipc.send('open-file-dialog', 'test-path');
+    });
+    replaceButton.addEventListener("click", event => {
+        maskChoose.style.display = "flex";
+    });
+    saveButton.addEventListener("click", event => {
+        getAllValue();
+        if(testPath!="" && !FileTools.hasFile(testPath)){
+            alert("测试路径有误");
+            return;
         }
+        ipc.send('save-setting', { testPath, replacePath, filterName });
+    });
+
+    folderButton.addEventListener("click", () => {
+        maskChoose.style.display = "none";
+        ipc.send('open-file-dialog', 'replace-folder');
+    });
+
+    fileButton.addEventListener("click", () => {
+        maskChoose.style.display = "none";
+        ipc.send('open-file-dialog', 'replace-file');
     });
 }
 
@@ -34,11 +57,19 @@ function getAllValue() {
     testPath = document.getElementById("test-path").value;
     replacePath = document.getElementById("replace-path").value;
     filterName = document.getElementById("filter-path").value;
-    return {testPath, replacePath, filterName};
+    return { testPath, replacePath, filterName };
 }
 function initOnEvent() {
     ipc.on('selected-directory', (event, arg) => {
         var input = document.getElementById(arg.id);
-        input.value = arg.file;
+        if (arg.id == "replace-path") {
+            let value = input.value;
+            if (value[value.length - 1] == ",") {
+                value = value.substring(0, value.length - 1);
+            }
+            input.value = input.value + "," + arg.file;
+        } else {
+            input.value = arg.file;
+        }
     });
 }

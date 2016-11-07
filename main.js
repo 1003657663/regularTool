@@ -65,10 +65,16 @@ function initSystemButton() {
     ipc.on('open-file-dialog', (event, arg) => {
         let dialog = electron.dialog;
         var openArg = "";
+        var returnID = "";
         if(arg == "test-path"){
             openArg = "openFile";
+            returnID = "test-path";
+        }else if(arg == "replace-folder"){
+            openArg = "openDirectory";
+            returnID = "replace-path";                        
         }else{
             openArg = "multiSelections";
+            returnID = "replace-path";            
         }
         dialog.showOpenDialog({
             properties: ['openFile', openArg]
@@ -76,7 +82,7 @@ function initSystemButton() {
             if (files) {
                 event.sender.send('selected-directory', {
                     file: files,
-                    id: arg
+                    id: returnID
                 });
             }
         });
