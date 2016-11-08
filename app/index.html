@@ -37,28 +37,15 @@
                                                                                  placeholder="请输入正则表达式"></textarea>
             </div>
             <div id="match-result">
-                <div class="list-group match-result-one">
-                    <span>
-                        <h6>all</h6>
-                    </span>
-                    <pre>slajfdlksajlkfjdsladfjldksj
-                    lsdljfldsjaflkjslakfjlskajflkjasfljlajflk
-                    sdlkfjlksjalfkjdlksajflkdsjalkfjdslksdfasfdsafdsafdsafdsafdsafdsafdsafdsajflkjsafdslkajf</pre>
-                </div>
-                <div class="list-group match-result-one">
-                    <span>
-                        <h6>all</h6>
-                    </span>
-                    <pre>slajfdlksajlkfjdsladfjldksj
-                    lsdljfldsjaflkjslakfjlskajflkjasfljlajflk
-                    sdlkfjlksjalfkjdlksajflkdsjalkfjdslksdfasfdsafdsafdsafdsafdsafdsafdsafdsajflkjsafdslkajf</pre>
-                </div>
             </div>
         </li>
         <li>
             <!--正则替换页面-->
-            <textarea placeholder="请输入替换表达式"></textarea>
-            <button id="start-replace">开始替换</button>
+            <div>
+                <textarea placeholder="请输入替换表达式" id="replace-text"></textarea>
+                <button id="start-replace">开始替换</button>
+            </div>
+            <div id="replace-result"></div>
         </li>
     </ul>
 </div>

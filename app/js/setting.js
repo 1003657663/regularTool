@@ -35,11 +35,12 @@ function initSystemButton() {//初始化系统按钮
     });
     saveButton.addEventListener("click", event => {
         getAllValue();
-        if(testPath!="" && !FileTools.hasFile(testPath)){
+        if (testPath != "" && !FileTools.hasFile(testPath)) {
             alert("测试路径有误");
             return;
         }
-        ipc.send('save-setting', { testPath, replacePath, filterName });
+        ipc.send('save-setting', {testPath, replacePath, filterName});
+        ipc.send('close-setting-window');
     });
 
     folderButton.addEventListener("click", () => {
@@ -57,17 +58,17 @@ function getAllValue() {
     testPath = document.getElementById("test-path").value;
     replacePath = document.getElementById("replace-path").value;
     filterName = document.getElementById("filter-path").value;
-    return { testPath, replacePath, filterName };
+    return {testPath, replacePath, filterName};
 }
 function initOnEvent() {
     ipc.on('selected-directory', (event, arg) => {
         var input = document.getElementById(arg.id);
         if (arg.id == "replace-path") {
             let value = input.value;
-            if (value[value.length - 1] == ",") {
-                value = value.substring(0, value.length - 1);
+            if (value != "" && value[value.length - 1] != ",") {
+                value = value + ',';
             }
-            input.value = input.value + "," + arg.file;
+            input.value = value + arg.file;
         } else {
             input.value = arg.file;
         }

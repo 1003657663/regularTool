@@ -7,7 +7,9 @@ html, body {
 
 body {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden; }
 
 *::-webkit-scrollbar {
   width: 10px;
@@ -33,7 +35,8 @@ button {
 ul {
   list-style: none;
   padding: 0;
-  margin: 0; }
+  margin: 0;
+  box-sizing: border-box; }
 
 /*---------------------------公共类-----------------*/
 .bg-primary {
@@ -185,11 +188,17 @@ ul {
 /*测试正则表达式部分结束*/
 /*替换部分*/
 #start-replace {
-  margin-left: 10px;
-  margin-right: 10px;
   height: 30px;
+  width: 100%;
   background: #337ab7;
-  color: #ffffff; }
+  color: #ffffff;
+  margin: 10px 0 10px 0; }
+
+#replace-result {
+  overflow-y: auto;
+  padding: 0 20px 0 20px;
+  margin-bottom: 10px;
+  font-size: 14px; }
 
 /*替换部分结束*/
 /*中间切换部分结束*/

@@ -15,7 +15,7 @@ exports.getAllFiles = function (path, callback) {
 	function explorer(path) {
 		fs.readdir(path, function (err, files) {
 			if (err) {
-				console.log(err);
+                callback(err,path);
 				return;
 			}
 			files.forEach(function (file, index) {
@@ -40,7 +40,7 @@ exports.getAllFiles = function (path, callback) {
 						}
 					});
 				} catch (e) {
-					console.log(e);
+					callback(e,path);
 				}
 			});
 
@@ -48,7 +48,7 @@ exports.getAllFiles = function (path, callback) {
 	}
 
 	if (!path) {
-		path = "./";
+		return false;
 	}
 	explorer(path);
 };
