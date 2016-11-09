@@ -99,43 +99,30 @@ ul {
 #head-menu {
   -webkit-app-region: drag;
   -webkit-user-select: none; }
-
-#set-button {
-  width: 30px;
-  height: 30px;
-  margin: 20px; }
-
-#close-button, #minimize-button, #setting-button {
-  margin: 5px;
-  padding: 0;
-  background-color: transparent;
-  background-size: contain;
-  -webkit-app-region: no-drag; }
-
-#close-button, #minimize-button {
-  width: 15px;
-  height: 15px; }
-
-#close-button {
-  background-image: url("../images/close-window.png"); }
-
-#close-button:hover {
-  background-image: url("../images/close-window-hover.png"); }
-
-#minimize-button {
-  background-image: url("../images/small-window.png"); }
-
-#minimize-button:hover {
-  background-image: url("../images/small-window-hover.png"); }
-
-#setting-button {
-  background-image: url("../images/setting.png");
-  width: 20px;
-  height: 20px;
-  float: left; }
-
-#setting-button:hover {
-  background-image: url("../images/setting-hover.png"); }
+  #head-menu #close-button, #head-menu #minimize-button, #head-menu #setting-button {
+    margin: 5px;
+    padding: 0;
+    background-color: transparent;
+    background-size: contain;
+    -webkit-app-region: no-drag; }
+  #head-menu #close-button, #head-menu #minimize-button {
+    width: 15px;
+    height: 15px; }
+  #head-menu #close-button {
+    background-image: url("../images/close-window.png"); }
+  #head-menu #close-button:hover {
+    background-image: url("../images/close-window-hover.png"); }
+  #head-menu #minimize-button {
+    background-image: url("../images/small-window.png"); }
+  #head-menu #minimize-button:hover {
+    background-image: url("../images/small-window-hover.png"); }
+  #head-menu #setting-button {
+    background-image: url("../images/setting.png");
+    width: 20px;
+    height: 20px;
+    float: left; }
+  #head-menu #setting-button:hover {
+    background-image: url("../images/setting-hover.png"); }
 
 /*顶部菜单按钮结束*/
 /*顶部切换部分*/

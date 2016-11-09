@@ -122,52 +122,46 @@ ul {
 #head-menu {
   -webkit-app-region: drag;
   -webkit-user-select: none;
-}
 
-#set-button {
-  width: 30px;
-  height: 30px;
-  margin: 20px;
-}
+  #close-button, #minimize-button, #setting-button {
+    margin: 5px;
+    padding: 0;
+    background-color: transparent;
+    background-size: contain;
+    -webkit-app-region: no-drag;
+  }
 
-#close-button, #minimize-button, #setting-button {
-  margin: 5px;
-  padding: 0;
-  background-color: transparent;
-  background-size: contain;
-  -webkit-app-region: no-drag;
-}
+  #close-button, #minimize-button {
+    width: 15px;
+    height: 15px;
+  }
 
-#close-button, #minimize-button {
-  width: 15px;
-  height: 15px;
-}
+  #close-button {
+    background-image: url("../images/close-window.png");
+  }
 
-#close-button {
-  background-image: url("../images/close-window.png");
-}
+  #close-button:hover {
+    background-image: url("../images/close-window-hover.png");
+  }
 
-#close-button:hover {
-  background-image: url("../images/close-window-hover.png");
-}
+  #minimize-button {
+    background-image: url("../images/small-window.png");
+  }
 
-#minimize-button {
-  background-image: url("../images/small-window.png");
-}
+  #minimize-button:hover {
+    background-image: url("../images/small-window-hover.png");
+  }
 
-#minimize-button:hover {
-  background-image: url("../images/small-window-hover.png");
-}
+  #setting-button {
+    background-image: url("../images/setting.png");
+    width: 20px;
+    height: 20px;
+    float: left;
+  }
 
-#setting-button {
-  background-image: url("../images/setting.png");
-  width: 20px;
-  height: 20px;
-  float: left;
-}
-
-#setting-button:hover {
-  background-image: url("../images/setting-hover.png");
+  #setting-button:hover {
+    background-image: url("../images/setting-hover.png");
+  }
 }
 
 /*顶部菜单按钮结束*/

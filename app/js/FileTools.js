@@ -5,8 +5,7 @@
  * @returns {Array}
  */
 var fs = require("fs");
-var config = require('./config').config;
-exports.getAllFiles = function (path, callback) {
+exports.getAllFiles = function (path,setting, callback) {
 	if (path.indexOf('.') != -1) {
 		callback(undefined, path);
 		return;
@@ -28,12 +27,12 @@ exports.getAllFiles = function (path, callback) {
 				try {
 					fs.stat(path + '/' + file, function (err, stat) {
 						if (stat.isDirectory()) {
-							if (config.filterDir.indexOf(file) != -1) {
+							if (setting.filterName.indexOf(file) != -1) {
 								return;
 							}
 							explorer(path + '/' + file);
 						} else {
-							if (config.filterFile.indexOf(file) != -1) {
+							if (setting.filterName.indexOf(file) != -1) {
 								return;
 							}
 							callback(err, path + '/' + file);

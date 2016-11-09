@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>fileContext</title>
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+    <script src="./js/fileContext.js"></script>
+    <style>
+        body {
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+        }
+        #head-menu{
+            background: #e8e8e8;
+        }
+        #title{
+            float:left;
+            padding: 5px;
+        }
+        #container{
+            overflow-y: auto;
+            flex-grow: 1;
+            margin: 0;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="head-menu">
+        <div style="text-align:right">
+            <span id="title"></span>
+            <button id="minimize-button"></button>
+            <button id="close-button"></button>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <pre id="container">
+
+    </pre>
+</body>
+
+</html>

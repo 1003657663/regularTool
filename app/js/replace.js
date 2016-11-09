@@ -1,22 +1,14 @@
 var FileTools = require('./FileTools');
 var fs = require('fs');
 
-var setting = require('./config').config;
-
-var path = setting.findPath;//搜索的根目录
 
 module.exports = function (path,setting, callBack) {
 
-    FileTools.getAllFiles(path, function (err, filePath) {
+    FileTools.getAllFiles(path,setting, function (err, filePath) {
         //获取到文件路径，下一步处理
         if (err) {
             callBack(err, filePath);
             return;
-        }
-        for (var i = 0; i < setting.filterNames.length; i++) {
-            if (filePath.indexOf(setting.filterNames[i]) != -1) {
-                return;
-            }
         }
         FileTools.readFile(filePath, function (err, fileContext) {
             zhushis = [];

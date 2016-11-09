@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>setting</title>
@@ -7,32 +8,34 @@
     <link rel="stylesheet" type="text/css" href="./css/setting.css">
     <script src="./js/setting.js"></script>
 </head>
+
 <body>
-<div id="head-menu">
-    <div style="text-align:right">
-        <button id="close-button"></button>
+    <div id="head-menu">
+        <div style="text-align:right">
+            <button id="close-button"></button>
+        </div>
+        <div style="clear: both;"></div>
     </div>
-    <div style="clear: both;"></div>
-</div>
-<div id="container">
-    <div class="input-one" >
-        <input type="text" id="test-path" placeholder="测试文件路径"/>
-        <button id="test-button">更改</button>
+    <div id="container">
+        <div class="input-one">
+            <input type="text" id="test-path" placeholder="测试文件路径" />
+            <button id="test-button">更改</button>
+        </div>
+        <div class="input-one">
+            <input type="text" id="replace-path" placeholder="替换文件/文件夹路径" />
+            <button id="replace-button">增加</button>
+        </div>
+        <div class="input-one">
+            <input type="text" id="filter-path" placeholder="替换过滤列表 逗号分隔" />
+        </div>
+        <button id="save-button">保存</button>
     </div>
-    <div class="input-one" >
-        <input type="text" id="replace-path" placeholder="替换文件/文件夹路径"/>
-        <button id="replace-button">增加</button>
+    <div id="folder-file">
+        <h6>请选择</h6>
+        <div class="button-group">
+            <button id="folder-button" class="active">文件夹</button><button id="file-button" class="active">&nbsp;文件&nbsp;</button>
+        </div>
     </div>
-    <div class="input-one" >
-        <input type="text" id="filter-path" placeholder="替换过滤列表 逗号分隔"/>
-    </div>
-    <button id="save-button">保存</button>
-</div>
-<div id="folder-file">
-    <h6>请选择</h6>
-    <div class="button-group">
-        <button id="folder-button" class="active">文件夹</button><button id="file-button" class="active">&nbsp;文件&nbsp;</button>
-    </div>
-</div>
 </body>
+
 </html>

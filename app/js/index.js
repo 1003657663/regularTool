@@ -7,9 +7,9 @@ var Handle = require('./js/Handle');
 var FileTools = require('./js/FileTools');
 var replace = require('./js/replace');
 var setting = {
-    testPath:null,
-    replacePath:null,
-    filterName:null
+    testPath: null,
+    replacePath: null,
+    filterName: null
 };
 var fileAimText = null;
 console.log(Handle);
@@ -35,9 +35,10 @@ function initSystem() {//初始化index渲染系统
                 } else {
                     fileAimText = data;
                     document.getElementById("aim-text").style.display = "none";
+                    //把获取的文件内容发送给新窗口
+                    ipc.send('open-file-context-window', fileAimText, setting.testPath);
                 }
             });
-            //输入文字部分消失---wait
         }
     });
 }
@@ -70,16 +71,16 @@ function initOtherButton() {
     startButton.addEventListener("click", event => {
         setting.replaceText = replaceTextElement.value;
         setting.findReg = getReg(testElement.value);
-        setting.filterNames = setting.filterName.split(',').filter((item)=>{return (item !="");});
+        setting.filterNames = setting.filterName.split(',').filter((item) => { return (item != ""); });
         setting.isText = false;
-        if(setting.replacePath) {
-            var replacePaths = setting.replacePath.split(',').filter((item)=>{return (item !="");});
-        }else{
+        if (setting.replacePath) {
+            var replacePaths = setting.replacePath.split(',').filter((item) => { return (item != ""); });
+        } else {
             alert("替换文件的路径为空，请选择替换文件");
             return;
         }
         for (var i = 0; i < replacePaths.length; i++) {
-            replace(replacePaths[i],setting, replaceCallBack);
+            replace(replacePaths[i], setting, replaceCallBack);
         }
     });
 }
@@ -88,14 +89,14 @@ function initOtherButton() {
  * 把regText装换成reg
  */
 function getReg(text) {
-    if(text[0]!="/"){
+    if (text[0] != "/") {
         return new RegExp(text);
-    }else{
+    } else {
         var reg = /\/(.*)\/(.*)/;
         var mR = reg.exec(text);
-        if(mR) {
-            return new RegExp(mR[1],mR[2]);
-        }else{
+        if (mR) {
+            return new RegExp(mR[1], mR[2]);
+        } else {
             return false;
         }
     }
@@ -105,13 +106,13 @@ function getReg(text) {
  */
 function replaceCallBack(err, file) {
     var replace = document.getElementById("replace-result");
-    if(err) {
+    if (err) {
         var font = document.createElement("font");
         font.innerText = `${file}--------${err.message}\r\n`;
         font.style.color = 'red';
         font.style.fontSize = "14px";
         replace.appendChild(font);
-    }else{
+    } else {
         replace.innerText += `${file}\r\n`;
     }
     replace.scrollTop = replace.scrollHeight;
@@ -156,11 +157,11 @@ function initRegTest() {
         if (setting.testPath) {
             if (fileAimText) {
                 var aimText = fileAimText;
-                return {aimText, regText};
+                return { aimText, regText };
             }
         } else {
             var aimText = aimTextElement.value;
-            return {aimText, regText};
+            return { aimText, regText };
         }
     }
 }

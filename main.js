@@ -6,6 +6,7 @@ const ipc = electron.ipcMain;
 let indexWebContents = null;
 let win;
 let settingWin;
+let fileContextWin;
 
 initApp();
 initSystemButton();
@@ -29,7 +30,7 @@ function initApp() {
 }
 
 function createWindow() {
-    win = new BrowserWindow({frame: false, width: 800, height: 600});
+    win = new BrowserWindow({ frame: false, width: 800, height: 600 });
     win.loadURL(`file://${__dirname}/app/index.html`);
     win.on('closed', () => {
         win = null;
@@ -39,42 +40,42 @@ function createWindow() {
 }
 
 function initSystemButton() {
-    ipc.on('window-all-closed', ()=> {//窗口关闭
+    ipc.on('window-all-closed', () => {//窗口关闭
         app.quit();
     });
-    ipc.on('window-all-minimize', ()=> {//窗口最小化
+    ipc.on('window-all-minimize', () => {//窗口最小化
         win.minimize();
     });
-    ipc.on('open-setting-window', ()=> {//打开设置窗口
+    ipc.on('open-setting-window', () => {//打开设置窗口
         if (settingWin == null) {
-            settingWin = new BrowserWindow({frame: false, parent: win, width: 400, height: 400});
+            settingWin = new BrowserWindow({ frame: false, parent: win, width: 400, height: 400 });
             settingWin.loadURL('file://' + __dirname + '/app/setting.html');
-            settingWin.on('closed', ()=> {
+            settingWin.on('closed', () => {
                 settingWin = null;
             });
         }
         settingWin.show();
     });
-    ipc.on('close-setting-window', ()=> {
+    ipc.on('close-setting-window', () => {
         settingWin.hide();
     });
-    ipc.on('save-setting',(event,message)=>{
-        win.webContents.send('save-setting',message);
+    ipc.on('save-setting', (event, message) => {
+        win.webContents.send('save-setting', message);
     });
 
     ipc.on('open-file-dialog', (event, arg) => {
         let dialog = electron.dialog;
         var openArg = "";
         var returnID = "";
-        if(arg == "test-path"){
+        if (arg == "test-path") {
             openArg = "openFile";
             returnID = "test-path";
-        }else if(arg == "replace-folder"){
+        } else if (arg == "replace-folder") {
             openArg = "openDirectory";
-            returnID = "replace-path";                        
-        }else{
+            returnID = "replace-path";
+        } else {
             openArg = "multiSelections";
-            returnID = "replace-path";            
+            returnID = "replace-path";
         }
         dialog.showOpenDialog({
             properties: ['openFile', openArg]
@@ -87,4 +88,31 @@ function initSystemButton() {
             }
         });
     });
+    ipc.on('open-file-context-window', (event, context, filePath) => {
+        if (fileContextWin == null) {
+            fileContextWin = new BrowserWindow({ frame: false, width: 800, height: 600 });
+            fileContextWin.loadURL('file://' + __dirname + '/app/fileContext.html');
+            fileContextWin.on('closed', () => {
+                fileContextWin = null;
+            });
+            fileContextWin.webContents.on('did-finish-load', () => {
+                console.log('ready');
+                fileContextWin.webContents.send('show-file-context', context, filePath);
+            });
+            fileContextWin.on('closed',()=>{
+                fileContextWin = null;
+            });
+        }
+        fileContextWin.show();
+    });
+    ipc.on('close-file-window',()=>{
+        if(fileContextWin){
+            fileContextWin.close();
+        }
+    });
+    ipc.on('minimize-file-window',()=>{
+        if(fileContextWin){
+            fileContextWin.minimize();
+        }
+    })
 }
