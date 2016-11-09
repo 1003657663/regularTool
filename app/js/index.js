@@ -95,7 +95,11 @@ function getReg(text) {
         var reg = /\/(.*)\/(.*)/;
         var mR = reg.exec(text);
         if (mR) {
-            return new RegExp(mR[1], mR[2]);
+            if (mR[2]) {
+                return new RegExp(mR[1], mR[2]);
+            }else{
+                return new RegExp(mR[1],'mg');
+            }
         } else {
             return false;
         }
@@ -107,13 +111,15 @@ function getReg(text) {
 function replaceCallBack(err, file) {
     var replace = document.getElementById("replace-result");
     if (err) {
-        var font = document.createElement("font");
-        font.innerText = `${file}--------${err.message}\r\n`;
-        font.style.color = 'red';
-        font.style.fontSize = "14px";
-        replace.appendChild(font);
+        var span = document.createElement("span");
+        span.innerText = `${file}--------${err.message}\r\n`;
+        span.style.color = 'red';
+        span.style.fontSize = "14px";
+        replace.appendChild(span);
     } else {
-        replace.innerText += `${file}\r\n`;
+        var span = document.createElement("span");
+        span.innerText = `${file}\r\n`;
+        replace.appendChild(span);
     }
     replace.scrollTop = replace.scrollHeight;
 }
