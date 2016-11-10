@@ -18,9 +18,30 @@
   },
   "build": {
     "appId": "www.codeevery.com",
+    "productName":"regularTool",
+    "description":"正则表达式测试工具，正则表达式批量替换文件内容工具",
+    "homepage":"https://github.com/1003657663/regularTool",
+
     "win": {
-      "iconUrl": "C:\\Users\\chao\\Downloads\\64X64.ico",
-      "icon-size": 64
+      "target":"nsis",
+      "iconUrl": "build/icon.ico",
+      "icon-size": "256"
+    },
+    "dmg":{
+      "background":"#009fff",
+      "icon":"build/icon.icns",
+      "iconTextSize":"64"
+    },
+    "linux":{
+      "target":"tar.gz"
+    },
+    "directoried":{
+      "output":"./dist"
     }
+  },
+  "scripts":{
+    "test":"start",
+    "start":"electron .",
+    "dist":"build --win --x64"
   }
 }
