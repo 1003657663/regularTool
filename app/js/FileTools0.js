@@ -5,7 +5,48 @@
  * @returns {Array}
  */
 var fs = require("fs");
-exports.getAllFiles = function (path,setting, callback) {
+exports.getAllFiles = function travel(dir, setting, callback, finish) {
+	if (dir.indexOf('.') != -1) {
+		callback(undefined, dir);
+		return;
+	}
+	fs.readdir(dir, function (err, files) {
+		if (err) {
+			callback(err, dir);
+			return;
+		}
+		(function next(i) {
+			if (i < files.length) {
+				if (files[i][0] == '.' || files[i][0] == '$') {
+					return;
+				}
+				var pathname = dir + "\\" + files[i];
+				var file = files[i];
+				fs.stat(pathname, function (err, stats) {
+					if (stats.isDirectory()) {
+						if (setting.filterName.indexOf(file) != -1) {
+							next(i + 1);
+							return;
+						}
+						travel(pathname, setting, callback, function () {
+							next(i + 1);
+						});
+					} else {
+						if (setting.filterName.indexOf(file) != -1) {
+							next(i + 1);
+							return;
+						}
+						callback(undefined, pathname);
+						next(i + 1);
+					}
+				});
+			} else {
+				finish && finish();
+			}
+		} (0));
+	});
+}
+/*exports.getAllFiles = function (path,setting, callback) {
 	if (path.indexOf('.') != -1) {
 		callback(undefined, path);
 		return;
@@ -35,10 +76,6 @@ exports.getAllFiles = function (path,setting, callback) {
 							if (setting.filterName.indexOf(file) != -1) {
 								return;
 							}
-							if(file == setting.testFileName){
-								callback(err, path + '/' + file,file);
-								return;
-							}
 							callback(err, path + '/' + file);
 						}
 					});
@@ -55,7 +92,7 @@ exports.getAllFiles = function (path,setting, callback) {
 	}
 	explorer(path);
 };
-
+*/
 exports.readFile = function (path, callback, encoding) {
 	if (!encoding) {
 		encoding = "utf-8";
@@ -63,9 +100,15 @@ exports.readFile = function (path, callback, encoding) {
 	var file = fs.readFile(path, encoding, callback);
 };
 
-exports.hasFile = function (path) {
-	if (fs.statSync(path).isFile()) {
-		return true;
+exports.hasFile = function (path, callback) {
+	try {
+		var stats = fs.statSync(path);
+	} catch (e) {
+		throw e;
 	}
-	return false;
+	if (stats.isFile()) {
+		return true;
+	} else {
+		return false;
+	}
 };

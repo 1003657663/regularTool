@@ -99,19 +99,26 @@ function initSystemButton() {
                 console.log('ready');
                 fileContextWin.webContents.send('show-file-context', context, filePath);
             });
-            fileContextWin.on('closed',()=>{
+            fileContextWin.on('closed', () => {
                 fileContextWin = null;
             });
+        }else{
+            fileContextWin.webContents.send('show-file-context', context, filePath);
         }
         fileContextWin.show();
     });
-    ipc.on('close-file-window',()=>{
-        if(fileContextWin){
+    ipc.on('update-file-context', (event, context, filePath) => {
+        if (fileContextWin) {
+            fileContextWin.webContents.send('show-file-context', context, filePath);
+        }
+    });
+    ipc.on('close-file-window', () => {
+        if (fileContextWin) {
             fileContextWin.close();
         }
     });
-    ipc.on('minimize-file-window',()=>{
-        if(fileContextWin){
+    ipc.on('minimize-file-window', () => {
+        if (fileContextWin) {
             fileContextWin.minimize();
         }
     })

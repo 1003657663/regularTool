@@ -101,7 +101,6 @@ ul {
   -webkit-user-select: none; }
   #head-menu #close-button, #head-menu #minimize-button, #head-menu #setting-button {
     margin: 5px;
-    padding: 0;
     background-color: transparent;
     background-size: contain;
     -webkit-app-region: no-drag; }
@@ -188,6 +187,20 @@ ul {
   font-size: 14px; }
 
 /*替换部分结束*/
+/*clean log部分*/
+#clear-log {
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  background-image: url("../images/clear.png");
+  background-size: cover;
+  position: absolute;
+  bottom: 5px;
+  right: 10px; }
+  #clear-log:hover {
+    background-image: url("../images/clear-hover.png"); }
+
+/*clean log部分结束*/
 /*中间切换部分结束*/
 
 /*# sourceMappingURL=index.css.map */

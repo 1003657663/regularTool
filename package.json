@@ -3,14 +3,11 @@
   "version": "1.0.0",
   "description": "chao",
   "main": "main.js",
-  "scripts": {
-    "dist": "build --win --x64"
-  },
   "author": "songchao",
   "license": "ISC",
   "devDependencies": {
-    "electron-builder": "^7.18.0",
-    "electron-prebuilt": "^1.4.5",
+    "electron-builder": "^7.24.1",
+    "electron-prebuilt": "^1.4.6",
     "grunt": "^1.0.1",
     "grunt-babel": "^6.0.0",
     "grunt-contrib-sass": "^1.0.0",
@@ -18,30 +15,28 @@
   },
   "build": {
     "appId": "www.codeevery.com",
-    "productName":"regularTool",
-    "description":"正则表达式测试工具，正则表达式批量替换文件内容工具",
-    "homepage":"https://github.com/1003657663/regularTool",
-
+    "productName": "regularTool",
+    "description": "正则表达式测试工具，正则表达式批量替换文件内容工具",
+    "homepage": "https://github.com/1003657663/regularTool",
     "win": {
-      "target":"nsis",
+      "target": "nsis",
       "iconUrl": "build/icon.ico",
       "icon-size": "256"
     },
-    "dmg":{
-      "background":"#009fff",
-      "icon":"build/icon.icns",
-      "iconTextSize":"64"
+    "dmg": {
+      "background": "#009fff",
+      "icon": "build/icon.icns",
+      "iconTextSize": "64"
     },
-    "linux":{
-      "target":"tar.gz"
+    "linux": {
+      "target": "tar.gz"
     },
-    "directoried":{
-      "output":"./dist"
+    "directoried": {
+      "output": "./dist"
     }
   },
-  "scripts":{
-    "test":"start",
-    "start":"electron .",
-    "dist":"build --win --x64"
+  "scripts": {
+    "start": "electron .",
+    "dist": "build --win --x64"
   }
 }

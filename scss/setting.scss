@@ -1,0 +1,55 @@
+@import "variable";
+#container{
+  width:100%;
+  padding: 10px 10px 0 10px;
+  flex-grow:1;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.input-one{
+  display: flex;
+  flex-direction:row;
+  margin-bottom:10px;
+  input{
+    flex-grow:1;
+    height:30px;
+    padding-left:5px;
+    padding-right:5px;
+    border-radius: 4px;
+  }
+  button{
+    margin-left:5px;
+  }
+}
+
+#save-button{
+  display: block;
+  border-radius: 5px;;
+  background: $primary-color;
+  height: 30px;
+  color: #ffffff;
+  margin-top:10px;
+}
+/*设置文件夹文件选择弹窗*/
+#folder-file{
+  position: fixed;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background-color: #ffffff;
+  text-align: center;
+  display: none;
+  flex-direction:column;
+  justify-content: center;
+  h6{
+    margin-top: 5px;
+    margin-bottom:20px;
+  }
+  .button-group button:last-child{
+    border-left:1px #ffffff solid;
+  }
+}

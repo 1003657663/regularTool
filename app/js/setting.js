@@ -16,7 +16,7 @@ window.onload = () => {
 function initSystemButton() {//初始化系统按钮
     var containerElement = document.getElementById("container");
     var closeButton = document.getElementById("close-button");
-    closeButton.addEventListener('click', function () {
+    closeButton.addEventListener('click', function() {
         ipc.send('close-setting-window');
     });
     var testButton = document.getElementById("test-button");
@@ -35,11 +35,19 @@ function initSystemButton() {//初始化系统按钮
     });
     saveButton.addEventListener("click", event => {
         getAllValue();
-        if (testPath != "" && !FileTools.hasFile(testPath)) {
-            alert("测试路径有误");
+        try {
+            if (testPath != "" && !FileTools.hasFile(testPath)) {
+                alert("测试路径有误");
+                return;
+            }
+        } catch (e) {
+            alert(e.message);
             return;
         }
-        ipc.send('save-setting', {testPath, replacePath, filterName});
+        if (testPath) {
+            var testFileName = testPath.substring(testPath.lastIndexOf('\\') + 1);
+        }
+        ipc.send('save-setting', { testPath, replacePath, filterName, testFileName });
         ipc.send('close-setting-window');
     });
 
@@ -58,7 +66,7 @@ function getAllValue() {
     testPath = document.getElementById("test-path").value;
     replacePath = document.getElementById("replace-path").value;
     filterName = document.getElementById("filter-path").value;
-    return {testPath, replacePath, filterName};
+    return { testPath, replacePath, filterName };
 }
 function initOnEvent() {
     ipc.on('selected-directory', (event, arg) => {

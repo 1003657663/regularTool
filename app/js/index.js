@@ -29,18 +29,29 @@ function initSystem() {//初始化index渲染系统
         //如果测试部分不是空，那么输入文字部分消失，自动从文件读取数据
         if (setting.testPath != "") {
             //获取字符串
-            fileAimText = FileTools.readFile(setting.testPath, (err, data) => {
-                if (err) {
-                    alert(err);
-                } else {
-                    fileAimText = data;
-                    document.getElementById("aim-text").style.display = "none";
-                    //把获取的文件内容发送给新窗口
-                    ipc.send('open-file-context-window', fileAimText, setting.testPath);
-                }
-            });
+            getTestFileContext();
         }
     });
+}
+/**
+ * 获取测试文件的内容并更新到窗口
+ */
+function getTestFileContext(isUpdate) {
+    fileAimText = FileTools.readFile(setting.testPath, (err, data) => {
+        if (err) {
+            alert(err);
+        } else {
+            fileAimText = data;
+            document.getElementById("aim-text").style.display = "none";
+            //把获取的文件内容发送给新窗口
+            if (isUpdate) {
+                ipc.send('update-file-context', fileAimText, setting.testPath);
+            } else {
+                ipc.send('open-file-context-window', fileAimText, setting.testPath);
+            }
+        }
+    });
+
 }
 /**
  * 初始化系统按钮点击
@@ -48,6 +59,7 @@ function initSystem() {//初始化index渲染系统
 function initSystemButton() {
     var closeButton = document.getElementById("close-button");
     var minimizeButton = document.getElementById('minimize-button');
+    var clearLogButton = document.getElementById("clear-log");
 
     closeButton.addEventListener('click', function () {
         ipc.send('window-all-closed');
@@ -55,6 +67,11 @@ function initSystemButton() {
     minimizeButton.addEventListener('click', function () {
         ipc.send('window-all-minimize');
     });
+    clearLogButton.addEventListener("click",function(){
+        var replace = document.getElementById("replace-result");
+        replace.innerHTML = "";
+    });
+
 }
 
 /**
@@ -67,12 +84,13 @@ function initOtherButton() {
     });
     var startButton = document.getElementById("start-replace");
     var replaceTextElement = document.getElementById("replace-text");
-    var testElement = document.getElementById("reg-text");
+    var testElement = document.getElementById("reg-text")
     startButton.addEventListener("click", event => {
         setting.replaceText = replaceTextElement.value;
         setting.findReg = getReg(testElement.value);
         setting.filterNames = setting.filterName.split(',').filter((item) => { return (item != ""); });
-        setting.isText = false;
+
+
         if (setting.replacePath) {
             var replacePaths = setting.replacePath.split(',').filter((item) => { return (item != ""); });
         } else {
@@ -83,6 +101,12 @@ function initOtherButton() {
             replace(replacePaths[i], setting, replaceCallBack);
         }
     });
+    // testElement.addEventListener("focus",()=>{
+    //     if(setting.testPath){
+    //         ipc.send('open-file-context-window', fileAimText, setting.testPath);
+    //     }
+    // });
+
 }
 
 /**
@@ -90,15 +114,15 @@ function initOtherButton() {
  */
 function getReg(text) {
     if (text[0] != "/") {
-        return new RegExp(text);
+        return new RegExp(text,'mg');
     } else {
         var reg = /\/(.*)\/(.*)/;
         var mR = reg.exec(text);
         if (mR) {
             if (mR[2]) {
                 return new RegExp(mR[1], mR[2]);
-            }else{
-                return new RegExp(mR[1],'mg');
+            } else {
+                return new RegExp(mR[1], 'mg');
             }
         } else {
             return false;
@@ -109,8 +133,12 @@ function getReg(text) {
  * 替换callback
  */
 function replaceCallBack(err, file) {
-    var replace = document.getElementById("replace-result");
+    var replace = document.getElementById("replace-result")
     if (err) {
+        if (err.message == "update test file") {
+            getTestFileContext(true);
+            return;
+        }
         var span = document.createElement("span");
         span.innerText = `${file}--------${err.message}\r\n`;
         span.style.color = 'red';
