@@ -13,4 +13,12 @@
     正则表达式是：(hellow )(world)  
     替换表达式是：$1$2 I am L-chao  
   
-内部使用的是js的String.replace函数，参照此函数解释即可
+内部使用的是js的String.replace函数，参照此函数解释即可  
+[replace教程](http://www.w3school.com.cn/jsref/jsref_replace.asp)  
+  
+  
+[软件打包好的exe文件](http://pan.baidu.com/s/1skC7Ym5)  
+  
+请确保安装了node和npm，项目下载后执行npm install按装依赖文件  
+另外需要安装sass和全局安装electron-prebuilt
+执行electron .或者npm run start运行项目
