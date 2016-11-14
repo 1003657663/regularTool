@@ -26,7 +26,7 @@ npm install
 ```
 另外需要安装sass(如果不更改css就不需要sass)和全局安装electron-prebuilt  
 ```
-npm install electron-prebuilt
+npm install electron-prebuilt -g
 ```
 sass安装请看[sass中文网](http://www.w3cplus.com/sassguide/install.html)  
 sass编译scss使用的是grunt，前面的install命令已经安装，执行以下命令即可编译scss文件夹到app/css文件夹
