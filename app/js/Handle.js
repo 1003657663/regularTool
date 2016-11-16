@@ -2,12 +2,13 @@
  * Created by w1003 on 2016/11/6.
  */
 module.exports = {
-    Error:{
-        RegError:0,
-        NoMatchError:1,
+    Error: {
+        RegError: 0,
+        NoMatchError: 1,
     },
     testReg: function (aimText, regText) {
         var spli = regText.match(/\/(.*)\/(.*)/);
+        //error,不可以使用正则表达式匹配，会出错
         if (spli) {
             var reg;
             try {
@@ -18,27 +19,25 @@ module.exports = {
                 }
             }
         } else {
-            if (regText.indexOf('/') == -1) {
-                var reg;
-                try {
-                    reg = new RegExp(regText);
-                } catch (e) {
-                    if (e.message.indexOf('Unterminated group') == -1) {
-                        return this.Error.RegError;
-                    }
+            var reg;
+            try {
+                reg = new RegExp(regText, "mg");
+            } catch (e) {
+                if (e.message.indexOf('Unterminated group') == -1) {
+                    return this.Error.RegError;
                 }
             }
         }
         if (reg) {
             var result = reg.exec(aimText);
         }
-        if(result){
+        if (result) {
             return result;
-        }else {
+        } else {
             return this.Error.NoMatchError;
         }
     },
-    replace:function () {
+    replace: function () {
 
     }
 };
