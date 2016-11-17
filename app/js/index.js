@@ -30,6 +30,10 @@ function initSystem() {//初始化index渲染系统
         if (setting.testPath != "") {
             //获取字符串
             getTestFileContext();
+        }else{
+            //如果测试部分是空的，那么关闭文件窗口，输入文字部分出现
+            ipc.send('close-file-window');
+            document.getElementById("aim-text").style.display = "block";
         }
     });
 }

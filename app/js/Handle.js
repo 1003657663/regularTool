@@ -7,8 +7,7 @@ module.exports = {
         NoMatchError: 1,
     },
     testReg: function (aimText, regText) {
-        var spli = regText.match(/\/(.*)\/(.*)/);
-        //error,不可以使用正则表达式匹配，会出错
+        var spli = regText.match(/^\/(.*[^\\])\/\)*([m|g|i]*)$/);
         if (spli) {
             var reg;
             try {
