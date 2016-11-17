@@ -37,6 +37,7 @@
   },
   "scripts": {
     "start": "electron .",
-    "dist": "build --win --x64"
+    "dist": "build --win --x64",
+    "build": "build --win --x64"
   }
 }
